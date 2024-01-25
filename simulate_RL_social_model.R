@@ -13,7 +13,7 @@ library(GGally)
 
 theme_set(theme_cowplot())
 
-load("bayesan_stats/social learning/data.RData")
+#load("bayesan_stats/social learning/data.RData")
 
 # Functions ----
 softmax <- function(Qvalues, beta){
@@ -169,8 +169,8 @@ ggplot(data_mixed_learning_l) +
 # STAN ________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________----
 
 # Compile 
-model <- stan_model(file = "bayesan_stats/social learning/social_learning_model.stan", # compile to create .rds file
-                    model_name = "bayesan_stats/social learning/social_learning_model",
+model <- stan_model(file = "social_learning_model.stan", # bayesan_stats/social learning/social_learning_model.stan", # compile to create .rds file
+                    model_name = "social_learning_model", #"bayesan_stats/social learning/social_learning_model",
                     auto_write = T) 
 
 # Alternative
@@ -245,8 +245,8 @@ ggpairs(draws_mixed, aes(alpha = 0.1),
 # Model comparison __________________________________________________________________________________________________________________________________________________________________________________________________________________----
 
 # fit model
-model_no_gamma <- stan_model(file = "bayesan_stats/social learning/social_learning_model_no_gamma.stan", # compile to create .rds file
-                    model_name = "bayesan_stats/social learning/social_learning_model_no_gamma",
+model_no_gamma <- stan_model(file = "social_learning_model_no_gamma.stan", # "bayesan_stats/social learning/social_learning_model_no_gamma.stan", # compile to create .rds file
+                    model_name = "social_learning_model_no_gamma", # "bayesan_stats/social learning/social_learning_model_no_gamma",
                     auto_write = T)
 
 # all parameters
