@@ -2,7 +2,7 @@
 This comes from the workshop I attended in 2023 "Computational Summer school Modeling social and collective behaviour" (https://cosmos-konstanz.github.io/). To better learn the topics, I tried to apply some of what we learned on my own. Hence, I produced the code (and bugs). 
 
 ## Background
-A group of agents is faced with the multi-armed bandit task, a classic set up for investigating the exploration-exploitation trade-off. Agents' policies (the function linking agents belives with actions) includes both private and social information ("decision biasing"). Agents then update their belives based on the outcome of their action using reinforcement learning.
+A group of agents is faced with the multi-armed bandit task, a classic set up for investigating the exploration-exploitation trade-off. Agents' policies (the function linking agents belives with their actions) includes both private and social information ("decision biasing"). Agents then update their belives based on the outcome of their action using reinforcement learning.
 
 ## Code
 
