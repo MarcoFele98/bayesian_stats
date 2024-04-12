@@ -3,7 +3,7 @@
 #___ https://cosmos-konstanz.github.io/about/ ____________________________________________________#
 #___ 10/2023 - Code (and bs) Marco Fele __________________________________________________________#
 #_________________________________________________________________________________________________#
-  
+
 rm(list = ls())
 
 library(tidyverse)
@@ -23,8 +23,8 @@ softmax <- function(Qvalues, beta){
 
 get_reward <- function(action, options){
   reward <- rnorm(1, 
-        mean = options[action, "mean"], 
-        sd = options[action, "sd"])
+                  mean = options[action, "mean"], 
+                  sd = options[action, "sd"])
   
   return(reward)
 }
@@ -97,7 +97,7 @@ gamma <- 0.9
 theta <- 1
 
 parameters <- data.frame(parameter = c("alpha", "beta", "gamma", "theta"),
-                                value = c(alpha, beta, gamma, theta))
+                         value = c(alpha, beta, gamma, theta))
 
 # Decision task parameters
 n_options <- 3
@@ -161,7 +161,7 @@ ggplot(data_mixed_learning_l) +
                 color = as.factor(agent)),
             alpha = 0.5) +
   geom_smooth(aes(time, reward), 
-            linewidth = 2, color = "black") +
+              linewidth = 2, color = "black") +
   facet_wrap(~replicate) +
   background_grid()
 
@@ -246,23 +246,15 @@ ggpairs(draws_mixed, aes(alpha = 0.1),
 
 # fit model
 model_no_gamma <- stan_model(file = "social_learning_model_no_gamma.stan", # "bayesan_stats/social learning/social_learning_model_no_gamma.stan", # compile to create .rds file
-                    model_name = "social_learning_model_no_gamma", # "bayesan_stats/social learning/social_learning_model_no_gamma",
-                    auto_write = T)
+                             model_name = "social_learning_model_no_gamma", # "bayesan_stats/social learning/social_learning_model_no_gamma",
+                             auto_write = T)
 
 # all parameters
 fit_comparison <- sampling(model_no_gamma, # MCMC sampling
-                      data = data_mixed, 
-                      cores = 4, # takes a while
-                      chains = 4, 
-                      iter = 2000)
-
-# Visualize result
-draws_comparison <- as.data.frame(fit_comparison)
-draws_comparison_l <- draws_comparison |>
-  select(-lp__) |>
-  pivot_longer(cols = 1:2,
-               names_to = "parameter",
-               values_to = "value")
+                           data = data_mixed, 
+                           cores = 4, # takes a while
+                           chains = 4, 
+                           iter = 2000)
 
 ggplot(draws_comparison_l) + # shit parameters as expected
   geom_histogram(aes(value)) +
@@ -272,5 +264,3 @@ ggplot(draws_comparison_l) + # shit parameters as expected
 
 ggpairs(draws_comparison, aes(alpha = 0.1),
         upper = list(continuous = "density"))
-# Values of likelihood much lower for this model (without social influence) than for the other model (with social influence). Conclusion: more likely to be social influence (and this is the case since I simulated the data). 
-# (To do things properly you also have to penalize for the number of parameters).
