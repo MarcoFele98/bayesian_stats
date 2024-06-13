@@ -13,7 +13,7 @@ library(GGally)
 
 theme_set(theme_cowplot())
 
-#load("bayesan_stats/social learning/data.RData")
+load("bayesan_stats/social learning/data.RData")
 
 # Functions ----
 softmax <- function(Qvalues, beta){
@@ -149,11 +149,17 @@ ggplot(data_mixed_learning_l) +
              aes(yintercept = mean,
                  color = as.factor(action)), 
              lty = 2, linewidth = 1) +
-  geom_smooth(aes(time, reward), lty = 2,
-              linewidth = 2, color = "black") +
+  # geom_smooth(aes(time, reward), lty = 2,
+  #             linewidth = 2, color = "black") +
   facet_wrap(~replicate) +
   scale_color_discrete(name = "Action") +
+  ggtitle("Reinforcment learning across ten replicates") +
   background_grid()
+
+ggsave("bayesan_stats/social learning/figures/learning_process.png",
+       height = 10,
+       width = 10,
+       bg = "white")
 
 # rewards
 ggplot(data_mixed_learning_l) +
@@ -233,13 +239,27 @@ draws_mixed_l <- draws_mixed |>
                values_to = "value")
 
 ggplot(draws_mixed_l) +
-  geom_histogram(aes(value)) +
+  geom_histogram(aes(value,
+                     ..count../sum(..count..))) +
   geom_vline(data = parameters,
-             aes(xintercept = value)) +
+             aes(xintercept = value), 
+             color = "red") +
+  ylab("Posterior") +
+  ggtitle("Posterior distribution") +
   facet_wrap(~parameter)
+
+ggsave("bayesan_stats/social learning/figures/posterior.png",
+       height = 5,
+       width = 7,
+       bg = "white")
 
 ggpairs(draws_mixed, aes(alpha = 0.1),
         upper = list(continuous = "density"))
+
+ggsave("bayesan_stats/social learning/figures/posterior_2.png",
+       height = 7,
+       width = 10,
+       bg = "white")
 
 
 # Model comparison __________________________________________________________________________________________________________________________________________________________________________________________________________________----
